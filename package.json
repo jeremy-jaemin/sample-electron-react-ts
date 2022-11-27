@@ -10,6 +10,7 @@
 		"@types/node": "^16.18.3",
 		"@types/react": "^18.0.25",
 		"@types/react-dom": "^18.0.9",
+		"electron-is-dev": "^2.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1",
@@ -17,10 +18,14 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"react-start": "react-scripts start",
+		"react-build": "react-scripts build",
+		"react-test": "react-scripts test",
+		"react-eject": "react-scripts eject",
+    "start": "tsc ./public/electron.ts && concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "npm run react-build && electron-builder",
+    "release": "npm run react-build && electron-builder --publish=always",
+    "lint": "eslint './src**/*.{ts,tsx}'"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -43,10 +48,16 @@
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.44.0",
 		"@typescript-eslint/parser": "^5.44.0",
+		"concurrently": "^7.6.0",
+		"cross-env": "^7.0.3",
+		"electron": "^21.3.1",
+		"electron-builder": "^23.6.0",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-react": "^7.31.11",
-		"prettier": "^2.8.0"
-	}
+		"prettier": "^2.8.0",
+		"wait-on": "^6.0.1"
+	},
+	"main":"public/electron.js"
 }
